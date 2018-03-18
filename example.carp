@@ -1,0 +1,21 @@
+(add-cflag "-D JSON_IMPLEMENTATION")
+(relative-include "json.h")
+
+(register-type json_token)
+
+(defmodule Json
+
+  (register parse (Fn [&String &Int] (Ptr json_token)))
+  (register string (Fn [(Ptr json_token)] String))
+
+  )
+
+
+
+(defn main []
+  (let-do [s "{\"a\": 123, \"b\": 666, \"c\": 10000}"]
+    (println* "Will parse " s)
+    (let [n 0
+          toks (Json.parse s (address n))]
+      (println &(Json.string toks, n)))
+    ))
