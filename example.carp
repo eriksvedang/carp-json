@@ -1,40 +1,4 @@
-(add-cflag "-D JSON_IMPLEMENTATION")
-(relative-include "json_helper.h")
-
-(register-type json_token)
-(register-type JsonParsed)
-
-(register JSON_NONE Int)
-(register JSON_OBJECT Int)
-(register JSON_ARRAY Int)
-(register JSON_NUMBER Int)
-(register JSON_STRING Int)
-(register JSON_TRUE Int)
-(register JSON_FALSE Int)
-(register JSON_NULL Int)
-
-(defmodule Json
-
-  (register parse (Fn [&String] JsonParsed))
-  (register string (Fn [JsonParsed &String] String))
-  (register double (Fn [JsonParsed &String] Double))
-  (register int (Fn [JsonParsed &String] Int))
-  (register query (Fn [JsonParsed &String] (Ptr json_token)))
-  (register type (Fn [JsonParsed &String] Int))
-
-  (defn type-to-str [type]
-    (case type
-      JSON_NONE @"none"
-      JSON_OBJECT @"object"
-      JSON_ARRAY @"array"
-      JSON_NUMBER @"number"
-      JSON_STRING @"string"
-      JSON_TRUE @"true"
-      JSON_FALSE @"false"
-      JSON_NULL @"null"
-      @"unknown"))
-
-  )
+(load "json.carp")
 
 (defn main []
   (let-do [s &(IO.read-file "data.json")]
