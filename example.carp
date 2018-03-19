@@ -6,6 +6,7 @@
 
 (register JSON_NONE Int)
 (register JSON_OBJECT Int)
+(register JSON_ARRAY Int)
 (register JSON_NUMBER Int)
 (register JSON_STRING Int)
 (register JSON_TRUE Int)
@@ -25,6 +26,7 @@
     (case type
       JSON_NONE @"none"
       JSON_OBJECT @"object"
+      JSON_ARRAY @"array"
       JSON_NUMBER @"number"
       JSON_STRING @"string"
       JSON_TRUE @"true"
@@ -35,12 +37,13 @@
   )
 
 (defn main []
-  (let-do [s "{\"a\": 123, \"b\": \"Argh!\", \"c\": {\"x\": 100, \"y\": 200}"]
-    (println* "Will parse " s)
+  (let-do [s &(IO.read-file "data.json")]
+    (println* "Will parse:\n" s)
     (let-do [parsed (Json.parse s)]
       (println* "a = " (Json.double parsed "a"))
       (println* "b = " &(Json.string parsed "b"))
-      (println* "c[2] = " (Json.double parsed "c.x"))
+      (println* "c[2] = " (Json.double parsed "c[2]"))
+      (println* "")
       (println* "type of a = " &(Json.type-to-str (Json.type parsed "a")))
       (println* "type of b = " &(Json.type-to-str (Json.type parsed "b")))
       (println* "type of c = " &(Json.type-to-str (Json.type parsed "c")))
