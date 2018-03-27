@@ -15,13 +15,25 @@
 
 (defmodule Json
 
+  (doc parse "Tokenize a string containing json data and store it in a JsonParsed structure.")
   (register parse (Fn [&String] JsonParsed))
+
+  (doc string "Retrieve a String from the parsed json structure.")
   (register string (Fn [JsonParsed &String] String))
+
+  (doc double "Retrieve a Double from the parsed json structure.")
   (register double (Fn [JsonParsed &String] Double))
+
+  (doc int "Retrieve a Int from the parsed json structure.")
   (register int (Fn [JsonParsed &String] Int))
+
+  (doc query "Retrieve a 'json_token' from the parsed json structure. This can be used for subqueries from that node.")
   (register query (Fn [JsonParsed &String] (Ptr json_token)))
+
+  (doc type "Get the type of a node in the parsed json structure.")
   (register type (Fn [JsonParsed &String] Int))
 
+  (doc type-to-str "Get a string representation of the json type returned from 'Json.type'.")
   (defn type-to-str [type]
     (case type
       JSON_NONE @"none"
@@ -35,3 +47,8 @@
       @"unknown"))
 
   )
+
+(defdynamic gendocs []
+  (do
+    (Project.config "title" "Json")
+    (save-docs Json)))
