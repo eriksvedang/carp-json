@@ -50,5 +50,6 @@
 
 (defdynamic gendocs []
   (do
+    (Project.config "docs-directory" "./docs")
     (Project.config "title" "Json")
     (save-docs Json)))
